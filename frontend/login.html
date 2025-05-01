@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>FarmShare</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- font awesome cdn -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- fonts -->
+        <link rel = "stylesheet" href = "font/fonts.css">
+        <!-- normalize css -->
+        <link rel = "stylesheet" href = "css/normalize.css">
+        <!-- custom css -->
+        <link rel = "stylesheet" href = "css/utility.css">
+        <link rel = "stylesheet" href = "css/style.css">
+        <link rel = "stylesheet" href = "css/responsive.css">
+        
+        <style>
+            body {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: url('./images/img1.jpg') no-repeat center center/cover;
+                margin: 0;
+                font-family: 'Poppins', sans-serif;
+            }           
+
+            /* Popup Overlay */
+            .popup-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7); /* Dark background for focus */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 1;
+                visibility: visible;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+
+            /* Login Container */
+            .login-container {
+                background: rgba(0, 0, 0, 0.85); /* Transparent black */
+                padding: 50px;
+                border-radius: 18px;
+                width: 100%;
+                max-width: 400px;
+                color: #fff;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9); 
+                border: 2px solid rgba(76, 175, 80, 0.7);
+                backdrop-filter: blur(12px); 
+                position: relative;
+                animation: fadeIn 0.3s ease;
+            }
+
+            /* Fade-in animation */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: scale(0.9); }
+                to { opacity: 1; transform: scale(1); }
+            }
+
+            /* Close Button */
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                background: transparent;
+                color: #fff;
+                font-size: 24px;
+                border: none;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+            }
+
+            .close-btn:hover {
+                transform: scale(1.2);
+            }
+
+            /* Input Fields */
+            .login-container .input-group {
+                margin-bottom: 20px;
+            }
+
+            .login-container .input-group label {
+                display: block;
+                margin-bottom: 6px;
+                font-weight: 600;
+                color: #eee;
+            }
+
+            .login-container .input-group input {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #4CAF50;
+                border-radius: 10px;
+                outline: none;
+                background: rgba(0, 0, 0, 0.6);
+                color: #fff;
+            }
+
+            .login-btn {
+                width: 100%;
+                padding: 12px;
+                background: #4CAF50;
+                border: none;
+                border-radius: 10px;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            .login-btn:hover {
+                background: #388E3C;
+            }
+
+            .register-link {
+                text-align: center;
+                margin-top: 20px;
+                color: #ddd;
+            }
+
+            .register-link a {
+                color: #4CAF50;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .register-link a:hover {
+                text-decoration: underline;
+            }
+            /* Responsive Design for Smaller Screens */
+            @media (max-width: 600px) {
+                .login-container {
+                    width: 90%;
+                    padding: 30px;
+                }
+            
+                .login-container h1 {
+                    font-size: 24px;
+                }
+            
+                .login-btn {
+                    padding: 10px;
+                }
+            
+                .close-btn {
+                    font-size: 20px;
+                }
+            }
+
+            @media (max-width: 400px) {
+                .login-container {
+                    width: 95%;
+                    padding: 20px;
+                }
+            
+                .login-container h1 {
+                    font-size: 20px;
+                }
+            
+                .input-group input {
+                    padding: 10px;
+                }
+            
+                .login-btn {
+                    padding: 10px;
+                    font-size: 14px;
+                }
+            
+                .close-btn {
+                    font-size: 18px;
+            }
+            }
+  
+        </style>
+    </head>
+    <body>
+        <div style="width:100%; height: 100vh; background-image: url('./images/home1.webp'); background-size:cover;background-position:center;background-repeat:no-repeat;">
+            <!-- navbar  -->
+            <nav class = "navbar">
+                <div class = "container flex">
+                    <a href = "index.html" class = "site-brand">
+                        <i class="fas fa-tractor" ></i>
+                        <span>Farm</span>Share
+                    </a>
+
+                    <button type = "button" id = "navbar-show-btn" class = "flex">
+                        <i class = "fas fa-bars"></i>
+                    </button>
+                    <div id = "navbar-collapse">
+                        <button type = "button" id = "navbar-close-btn" class = "flex">
+                            <i class = "fas fa-times"></i>
+                        </button>
+                        <ul class = "navbar-nav">
+                            <li class = "nav-item">
+                                <a href = "index.html" class = "nav-link"><i class = "fas fa-home"></i>Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- end of navbar  -->
+
+            <!-- header -->
+            <header class = "flex">
+                <div class = "container">
+                    <div class="popup-overlay" id="popup-overlay">
+                        <div class="login-container">
+                            <button class="close-btn" id="close-btn">&times;</button>
+                            <h1 id="form-title">FarmShare Login</h1>
+                            <form id="auth-form">
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="Enter your email" required>
+                                </div>
+                    
+                                <div class="input-group" id="name-group" style="display: none;">
+                                    <label for="name">User Name</label>
+                                    <input type="text" id="name" placeholder="Enter your user name" required>
+                                </div>
+                    
+                                <div class="input-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" placeholder="Enter your password" required>
+                                </div>
+                    
+                                <button type="submit" class="login-btn" id="submit-btn">Login</button>
+                                
+                               
+                                    
+                             
+                                <div class="register-link">
+                                    Don't have an account? <a id="toggle-link">Register here</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                                        
+                </div>
+            </header>
+        </div>
+        <!-- header -->
+
+
+        <!-- js -->
+        
+        <script>
+            const toggleLink = document.getElementById("toggle-link");
+            const formTitle = document.getElementById("form-title");
+            const nameGroup = document.getElementById("name-group");
+            const submitBtn = document.getElementById("submit-btn");
+            
+            const registerLinkContainer = document.querySelector(".register-link");
+            const closeBtn = document.getElementById("close-btn");
+            
+            const emailInput = document.getElementById("email");
+            const passwordInput = document.getElementById("password");
+            const nameInput = document.getElementById("name");
+            
+            let isLoginForm = true;
+            
+            function toggleHandler(e) {
+                e.preventDefault();
+                isLoginForm = !isLoginForm;
+            
+                if (isLoginForm) {
+                    formTitle.innerText = "FarmShare Login";
+                    submitBtn.innerText = "Login";
+                    nameGroup.style.display = "none";
+                    registerLinkContainer.innerHTML = `Don't have an account? <a id="toggle-link">Register here</a>`;
+                } else {
+                    formTitle.innerText = "Sign Up";
+                    submitBtn.innerText = "Register";
+                    nameGroup.style.display = "block";
+                    registerLinkContainer.innerHTML = `Already have an account? <a id="toggle-link">Login here</a>`;
+                }
+            
+                document.getElementById("toggle-link").addEventListener("click", toggleHandler);
+            }
+            
+            toggleLink.addEventListener("click", toggleHandler);
+            closeBtn.addEventListener("click", () => {
+                window.location.href = "index.html";
+            });
+            
+            submitBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+            
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+                const username = nameInput.value.trim();
+            
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+            
+                if (!email || !password || (!isLoginForm && !username)) {
+                    alert("Please fill in all required fields.");
+                    return;
+                }
+            
+                if (/\s/.test(email) || /\s/.test(password) || (!isLoginForm && /\s/.test(username))) {
+                    alert("Fields must not contain spaces.");
+                    return;
+                }
+            
+                if (!emailPattern.test(email)) {
+                    alert("Invalid email format.");
+                    return;
+                }
+            
+                if (!passwordPattern.test(password)) {
+                    alert("Password must be at least 8 characters long, with uppercase, lowercase, number, and special character.");
+                    return;
+                }
+            
+                try {
+                    const endpoint = isLoginForm ? "/api/users/login" : "/api/users";
+                    const payload = isLoginForm
+                        ? { email, password }
+                        : { username, email, password };
+            
+                    const response = await fetch(`http://localhost:5001${endpoint}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+            
+                    const data = await response.json();
+            
+                    if (!response.ok) {
+                        alert(data.error || "An error occurred");
+                        return;
+                    }
+            
+                    if (isLoginForm) {
+                        // Store token (optional): localStorage.setItem("token", data.token);
+                        localStorage.setItem("token", data.token);
+                        alert("Login successful!");
+                        window.location.href = "dashboard.html";
+                    } else {
+                        alert("Registration successful! Please log in.");
+                        toggleHandler(e); // Switch back to login
+                    }
+                } catch (err) {
+                    console.error("Error:", err);
+                    alert("Something went wrong. Please try again.");
+                }
+            });
+
+        </script>
+    </body>
+</html>
