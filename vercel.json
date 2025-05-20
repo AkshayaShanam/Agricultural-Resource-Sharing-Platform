@@ -3,7 +3,7 @@
   "public": true,
   "builds": [
     {
-      "src": "frontend/index.html",
+      "src": "index.html",
       "use": "@vercel/static"
     }
   ],
@@ -14,7 +14,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "dest": "/$1"
     }
   ]
 }
