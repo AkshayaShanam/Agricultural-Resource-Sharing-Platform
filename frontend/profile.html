@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        
+        .sidebar ul li.active {
+            background-color: #1B5E20;; /* Green highlight */
+            color: white;
+            font-weight: bold;
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 15px 5px;
+        }
+        .profile-header{
+            margin: 50px 5px;
+        }
+        .farmer-container {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 930px;
+            border-left: 6px solid var(--primary-color);
+            margin-top: 25px;
+        }
+
+        /* Farmer Image */
+        .farmer-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid var(--primary-color);
+        }
+
+        /* Farmer Details */
+        .farmer-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+       
+
+        .farmer-details p {
+            margin: 5px 0;
+            font-size: 25px;
+            color: #0b0b0b;
+        }
+        /*edit*/
+        .edit-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 930px;
+            text-align: center;
+            margin-top: 27px;
+        }
+        .info-boxes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .info-box h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .info-box p {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .edit-profile-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1B5E20;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .edit-profile-btn i {
+            margin-right: 8px;
+        }
+
+        .edit-profile-btn:hover {
+            background: #218838;
+        }
+        .container {
+            width: 100%;
+            max-width: 930px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 25px;
+        }
+        
+        /* Resource Form Styling */
+        .resource-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .resource-form input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        #addResourceBtn {
+            background-color: #1B5E20;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        
+        #addResourceBtn:hover {
+            background-color:#1B5E20;
+        }
+        
+        /* Resource List Section */
+        .resource-list {
+            margin-top: 20px;
+        }
+        
+        .resource-card {
+            display: flex;
+            align-items: center;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensure delete button is positioned inside */
+        }
+        
+        .resource-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 2px solid #1B5E20;
+        }
+        
+        .resource-info h3 {
+            margin: 0;
+            color: #1B5E20;
+        }
+        
+        .resource-info p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        #resourceName {
+            height: 40px;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #626161;
+            border-color:#c7c5c5;
+          }
+        
+        /* Delete Button */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;  /* Fixes the position */
+            background: #ff5252;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .delete-btn:hover {
+            background: #d32f2f;
+        }
+
+        #resourceCost::-webkit-outer-spin-button,
+        #resourceCost::-webkit-inner-spin-button {
+             -webkit-appearance: none;
+             margin: 0;
+        }
+
+/* Hide number input arrows (for Firefox) */
+#resourceCost {
+    -moz-appearance: textfield;
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1> <i class="fas fa-tractor"></i> FarmShare</h1>
+        <ul>
+            <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="resources.html"><i class="fas fa-tools"></i> Resources</a></li>
+            <li class="active"><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            <li id="logout-btn"><a><i class="fas fa-sign-out-alt"></i> Logout</a></li> <!-- Logout stays the same -->
+        </ul>
+    </div>
+    <div class="main-content"> 
+        <!-- 1 -->
+        <header>
+            <div class="user-info" style="height:20px">
+                <i class="fas fa-user"></i><h2 style="font-size:28px;">Profile</h2>
+            </div>
+        </header>
+        <!-- 2-->
+        <div class="farmer-container">
+            <img src="./Images/fam1.jpeg" alt="Farmer Photo" class="farmer-image">
+            <div class="farmer-details">
+                <p id="email">hanmandlushanam81@gmail.com</p>
+            </div>
+        </div>
+        <!-- 3 -->
+        <div class="edit-container">
+            <div class="info-boxes">
+                <div class="info-box">
+                    <h4>Full Name</h4>
+                    <p id="name">Hanmandlu Shanam</p>
+                </div>
+                <div class="info-box">
+                    <h4>Username</h4>
+                    <p id="username">hanmandlu</p>
+                </div>
+                <div class="info-box">
+                    <h4>ADDRESS</h4>
+                    <p id="location">Ambam</p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>District</h4>
+                    <p id="district">Nizamabad</p>
+                </div>
+
+                <div class="info-box">
+                    <h4>Contact</h4>
+                    <p id="contact">+91 98765 43210</p>
+                </div>
+            </div>
+    
+            <button class="edit-profile-btn" id="edit-btn">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+            <button class="edit-profile-btn" id="save-btn" style="display: none;">
+                Save
+              </button>
+            
+        </div>
+        <div class="container">
+            <!-- Resource Input Section -->
+            <div class="resource-form">
+                <h2>Add a Resource</h2>
+                <select id="resourceName"  >
+                    <option value="" disabled selected>Select a resource</option>
+                    <option value="Tractor">Tractor</option>
+                    <option value="Rotavator">Rotavator</option>
+                    <option value="Seeddriller">Seed Driller</option>
+                    <option value="CombineHarvester">Combine Harvester</option>
+                    <option value="Sprayer">Sprayer</option>
+                    <option value="IrrigationPump">Irrigation Pump</option>
+                    <option value="Chainsaw">Chainsaw</option>
+                    <option value="Plow">Plow</option>
+                    <option value="Cultivator">Cultivator</option>
+                    <option value="Seeder">Seeder</option>
+
+
+                </select>
+                <input type="number" id="resourceCost" placeholder="Enter cost" required />
+                <input type="file" id="resourceImage" accept="image/*" required>
+                <button id="addResourceBtn">Add Resource</button>
+            </div>
+    
+            <!-- Resource Display Section -->
+            <div class="resource-list" id="resourceList">
+                <h2>Available Resources</h2>
+                <!-- Resources will be dynamically added here -->
+            </div>
+        </div>
+    
+
+        <!-- 🚀 Logout Popup -->
+        <div id="logout-popup" class="popup-container">
+            <div class="popup">
+                <h2>Confirm Logout</h2>
+                <p>Are you sure, you want to log out?</p>
+                <button id="confirm-logout">Yes</button>
+                <button id="cancel-logout">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const token = localStorage.getItem("token");
+        // Logout Logic
+        document.getElementById("logout-btn").addEventListener("click", function () {
+            document.getElementById("logout-popup").style.display = "flex";
+        });
+    
+        document.getElementById("confirm-logout").addEventListener("click", function () {
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        });
+    
+        document.getElementById("cancel-logout").addEventListener("click", function () {
+            document.getElementById("logout-popup").style.display = "none";
+        });
+
+    
+        // Edit Profile Logic
+        const editBtn = document.getElementById('edit-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const fields = ['name', 'username', 'location', 'contact', 'district'];
+    
+        editBtn.addEventListener('click', () => {
+            fields.forEach(field => {
+                const pTag = document.getElementById(field);
+                const currentValue = pTag.innerText;
+                pTag.innerHTML = `<input type="text" id="${field}-input" value="${currentValue}" />`;
+            });
+    
+            editBtn.style.display = 'none';
+            saveBtn.style.display = 'inline-block';
+        });
+    
+        saveBtn.addEventListener('click', () => {
+            const updatedData = {};
+            fields.forEach(field => {
+                const input = document.getElementById(`${field}-input`);
+                let key;
+                if (field === "name") key = "full_name";
+                else if (field === "location") key = "address";
+                else key = field;
+                updatedData[key] = input.value;
+            });
+            
+
+            const token = localStorage.getItem("token");
+    
+            fetch("http://localhost:5001/api/profile/edit", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(updatedData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(`Error: ${data.error}`);
+                } else {
+                    alert("Profile updated successfully!");
+                    fields.forEach(field => {
+                        const pTag = document.getElementById(field);
+                        let key;
+                        if (field === "name") key = "full_name";
+                        else if (field === "location") key = "address";
+                        else key = field;
+                    
+                        if (pTag) pTag.innerText = updatedData[key];
+                    });
+                    saveBtn.style.display = 'none';
+                    editBtn.style.display = 'inline-block';
+                }
+            })
+            .catch(err => {
+                console.error("Update error:", err);
+                alert("An error occurred while updating the profile.");
+            });
+        });
+   
+        // ✅ Resource Management Logic
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("You must be logged in to view this page.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Fetch and fill profile info
+        fetch("http://localhost:5001/api/profile", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error fetching profile");
+                return;
+            }
+
+            document.getElementById("name").innerText = data.full_name || '';
+            document.getElementById("username").innerText = data.username || '';
+            document.getElementById("email").innerText = data.email || '';
+            document.getElementById("location").innerText = data.address || '';
+            document.getElementById("contact").innerText = data.contact || '';
+            document.getElementById("district").innerText = data.district || '';
+        });
+
+        const resourceNameInput = document.getElementById("resourceName");
+        const resourceCostInput = document.getElementById("resourceCost");
+        const resourceImageInput = document.getElementById("resourceImage");
+        const addResourceBtn = document.getElementById("addResourceBtn");
+        const resourceList = document.getElementById("resourceList");
+
+        addResourceBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            addResource();
+        });
+
+        async function addResource() {
+            const name = resourceNameInput.value;
+            const cost = resourceCostInput.value;
+            const imageFile = resourceImageInput.files[0];
+
+            if (!name || !cost || !imageFile) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            if (Number(cost) <= 0) {
+                alert("Cost per day must be greater than 0.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("cost_per_day", cost);
+            formData.append("image_url", imageFile);
+
+            try {
+                const res = await fetch("http://localhost:5001/api/resources/add", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    alert(`Error: ${data.message || data.error}`);
+                    return;
+                }
+
+                alert("Resource added successfully!");
+                
+                // Clear input fields
+                resourceNameInput.value = "";
+                resourceCostInput.value = "";
+                resourceImageInput.value = "";
+
+                // Fetch updated resources
+                fetchUserResources();
+
+            } catch (err) {
+                console.error("Add Resource Error:", err);
+                alert("Failed to add resource.");
+            }
+        }
+
+        async function fetchUserResources() {
+            try {
+                const res = await fetch("http://localhost:5001/api/resources/my-resources", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch user resources");
+                }
+
+                const data = await res.json();
+                displayResources(data);
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function displayResources(resources) {
+            resourceList.innerHTML = `<h2>Available Resources</h2>`; // Reset
+
+            resources.forEach(resource => {
+                const resourceCard = document.createElement("div");
+                resourceCard.classList.add("resource-card");
+
+                resourceCard.innerHTML = `
+                    <button class="delete-btn">🗑️</button>
+                    <img src="${resource.image_url}" alt="${resource.name}" class="resource-img">
+                    <div class="resource-info">
+                        <h3>${resource.name}</h3>
+                        <p>Cost: ₹${resource.cost_per_day}</p>
+                    </div>
+                `;
+
+                resourceCard.querySelector(".delete-btn").addEventListener("click", () => {
+                    deleteResource(resource.resource_id, resourceCard);
+                });
+
+                resourceList.appendChild(resourceCard);
+            });
+        }
+
+        async function deleteResource(resourceId, cardElement) {
+            try {
+                const res = await fetch(`http://localhost:5001/api/resources/${resourceId}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    alert(`Error: ${data.error || "Failed to delete resource"}`);
+                    return;
+                }
+
+                alert("Resource deleted successfully!");
+                cardElement.remove();
+            } catch (err) {
+                console.error("Delete Resource Error:", err);
+            }
+        }
+
+        // Fetch resources on page load too
+        fetchUserResources();
+    });
+        
+        
+    </script>
+    
+
+</body>
+</html>

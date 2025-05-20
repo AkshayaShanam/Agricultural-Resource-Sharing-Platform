@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Resource</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Fonts & General Setup */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #56ab2f, #a8e063);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: black;
+            position: relative;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 18px;
+            color: black;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            gap: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        /* Image Section */
+        .image-section {
+            max-width: 400px;
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+
+        #product-img {
+            width: 100%;
+            max-width: 500px; /* You can adjust this */
+            height: 400px;    /* Fixed height */
+            object-fit: contain;
+            object-position: center;
+            border-radius: 12px;
+            background-color: #f0f0f0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Optional: Add a soft shadow */
+            padding: 10px; /* Optional: Some breathing space inside */
+        }
+        
+
+        .product-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Details Section */
+        .details {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 18px;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        /* Owner Information */
+        .owner-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+        }
+
+        .owner-info h3 {
+            font-size: 24px;
+            color: #000000;
+        }
+
+        .owner-info p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        /* Contact Button */
+        .contact-btn {
+            background: #00641e;
+            color: rgb(255, 255, 255);
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(27, 255, 94, 0.4);
+        }
+
+        .contact-btn:hover {
+            background: #004d16;
+            box-shadow: 0 6px 15px rgba(76, 92, 81, 0.7);
+            transform: scale(1.05);
+        }
+
+        .label {
+            font-size: 20px;
+            margin-top: 5px ;
+            margin-bottom: 5px;
+            color: #495057;
+          }
+      
+          input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+          }
+
+          
+    .error-message {
+        color: #d00000;
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+        display: none;
+      }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .image-section {
+                order: -1;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .price {
+                font-size: 24px;
+            }
+
+            .description, .owner-info p {
+                font-size: 16px;
+            }
+
+            .contact-btn {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .price {
+                font-size: 20px;
+            }
+
+            .description, .owner-info p {
+                font-size: 14px;
+            }
+
+            .contact-btn {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button -->
+    <button class="back-btn" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <div class="container">
+        <!-- Image Section -->
+        <div class="image-section">
+            <img id="product-img" class="product-img" src="./images/tractor.jpg" alt="Product Image">
+        </div>
+
+        <!-- Details Section -->
+        <div class="details">
+            <h2 id="product-name">Tractor</h2>
+            <p class="price" id="product-price">₹30,000</p>
+
+            <div class="owner-info">
+                <h3>Owner Details</h3>
+                <p><strong>Name:</strong> <span id="owner-name">Laxman</span></p>
+                <p><strong>Location:</strong> <span id="owner-location">Nizambad, Telangana</span></p>
+                <p><strong>Contact:</strong> <span id="owner-contact">+9285767385</span></p>
+            </div>
+            <label class="label" for="returnDate">Select Return Date:</label>
+            <input type="date" id="returnDate" />
+            <div class="error-message" id="errorMsg"></div>
+            <button class="contact-btn" onclick="sendRentalRequest()">Request Resource</button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "resources.html";
+        }
+    
+        window.onload = async function() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+    
+            if (!id) {
+                alert("No resource selected!");
+                window.location.href = "resources.html"; 
+                return;
+            }
+    
+            const token = localStorage.getItem('token'); // 🔥 get token for Authorization
+    
+            try {
+                const res = await fetch(`http://localhost:5001/api/resources/${id}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+    
+                if (!res.ok) {
+                    throw new Error("Failed to fetch resource details");
+                }
+    
+                const data = await res.json();
+    
+                // Fill the fields
+                document.getElementById("product-name").innerText = data.resource_name;
+                document.getElementById("product-price").innerText = `₹${data.resource_cost}`;
+                document.getElementById("product-img").src = data.resource_image;
+    
+                document.getElementById("owner-name").innerText = data.owner_name;
+                document.getElementById("owner-location").innerText = `${data.owner_address}, ${data.owner_district}`;
+                document.getElementById("owner-contact").innerText = data.owner_contact;
+    
+            } catch (error) {
+                console.error("Error loading resource:", error);
+                alert("Could not load resource details. Try again later.");
+            }
+        };
+        
+        async function sendRentalRequest() {
+            const returnDateInput = document.getElementById('returnDate');
+            const returnDate = returnDateInput.value;
+            const errorMsg = document.getElementById('errorMsg');
+            const params = new URLSearchParams(window.location.search);
+            const resourceId = params.get("id");
+        
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+        
+            if (!returnDate) {
+                errorMsg.textContent = "* Please fill the return date.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+        
+            const selectedDate = new Date(returnDate);
+            if (selectedDate < today) {
+                errorMsg.textContent = "* Please enter a valid future date.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+        
+            errorMsg.style.display = 'none';
+        
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("You must be logged in.");
+                window.location.href = "login.html";
+                return;
+            }
+        
+            try {
+                const res = await fetch("http://localhost:5001/api/rentals/request", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        resource_id: resourceId,
+                        return_date: returnDate
+                    })
+                });
+        
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert("Rental request sent successfully!");
+                    window.location.href = "notifications.html"; // ✅ After successful request, go to notifications page
+                } else {
+                    alert(data.message || "Failed to send rental request."); 
+                    // ❌ If already requested, just show alert, no redirection, no duplicate.
+                }
+
+                
+            } catch (error) {
+                console.error("Error sending rental request:", error);
+                alert("Something went wrong. Please try again later.");
+            }
+        }
+        
+    </script>
+    
+</body>
+</html>

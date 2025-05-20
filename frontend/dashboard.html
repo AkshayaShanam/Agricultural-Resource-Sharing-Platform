@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Resource Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .sidebar ul li.active {
+            background-color: #1B5E20;
+            color: white;
+            font-weight: bold;
+        }
+        .delivered { color: #28a745; }
+        .pending { color: #ffc107; }
+        .rejected { color: #dc3545; }
+        .taken-btn, .return-btn {
+            background: #00641e;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .taken-btn:hover, .return-btn:hover {
+            background: #004d16;
+        }
+        .taken-label, .returned-label {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1> <i class="fas fa-tractor"></i> FarmShare</h1>
+        <ul>
+            <li class="active"><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="resources.html"><i class="fas fa-tools"></i> Resources</a></li>
+            <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            <li id="logout-btn"><a><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <section>
+            <h2 style="font-size:28px;">DashBoard</h2>
+        </section>
+
+        <!-- 📊 Tables Section -->
+        <section class="tables">
+            <div class="recent-orders">
+                <h2>Recently Rented</h2>
+                <table id="recently-rented-table">
+                    <thead>
+                        <tr>
+                            <th>Vendor_Name</th>
+                            <th>Contact</th>
+                            <th>Resource</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Rental Date</th>
+                            <th>Return Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="recent-customers">
+                <h2>Recently Shared</h2>
+                <table id="recently-shared-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Contact</th>
+                            <th>Resource</th>
+                            <th>Price</th>
+                            <th>Rental Date</th>
+                            <th>Return Date</th>
+                            <th>Taken</th>
+                            <th>Returned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 🚀 Logout Popup -->
+        <div id="logout-popup" class="popup-container">
+            <div class="popup">
+                <h2>Confirm Logout</h2>
+                <p>Are you sure, you want to log out?</p>
+                <button id="confirm-logout">Yes</button>
+                <button id="cancel-logout">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout Popup Handlers
+        document.getElementById("logout-btn").addEventListener("click", function() {
+            document.getElementById("logout-popup").style.display = "flex";
+        });
+
+        document.getElementById("confirm-logout").addEventListener("click", function() {
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        });
+
+        document.getElementById("cancel-logout").addEventListener("click", function() {
+            document.getElementById("logout-popup").style.display = "none";
+        });
+
+        // Load data on page load
+        document.addEventListener("DOMContentLoaded", async function() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            await Promise.all([
+                loadRecentlyRented(token),
+                loadRecentlyShared(token)
+            ]);
+        });
+
+        async function loadRecentlyRented(token) {
+            try {
+                const res = await fetch("http://localhost:5001/api/rentals/renter", {
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+        
+                if (!res.ok) {
+                    throw new Error("Failed to fetch recently rented resources");
+                }
+        
+                const rentals = await res.json();
+                const tableBody = document.querySelector("#recently-rented-table tbody");
+                tableBody.innerHTML = ''; // Clear existing rows
+        
+                if (rentals.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7">No rentals found.</td></tr>';
+                    return;
+                }
+        
+                for (const rental of rentals) {
+                    const statusClass = rental.status === 'Accepted' ? 'delivered' : rental.status === 'Rejected' ? 'rejected' : 'pending';
+        
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${rental.vendor_name}</td>
+                        <td>${rental.owner_contact || '-'}</td>
+                        <td>${rental.resource_name}</td>
+                        <td>₹${rental.price}</td>
+                        <td class="${statusClass}">${rental.status}</td>
+                        <td>${rental.rental_date ? new Date(rental.rental_date).toLocaleDateString('en-GB') : 'Not Taken Yet'}</td>
+                        <td>${rental.return_date ? new Date(rental.return_date).toLocaleDateString('en-GB') : 'Not Yet Returned'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            } catch (err) {
+                console.error("Error loading recently rented:", err);
+                alert("Failed to load recently rented resources.");
+            }
+        }
+
+        async function loadRecentlyShared(token) {
+            try {
+                const res = await fetch("http://localhost:5001/api/rentals/shared", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch recently shared resources");
+                }
+
+                const rentals = await res.json();
+                const tableBody = document.querySelector("#recently-shared-table tbody");
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                // Debugging: Log the rentals to inspect the response
+                console.log("Rentals response:", rentals);
+
+                // Ensure rentals is an array
+                if (!Array.isArray(rentals)) {
+                    throw new Error("Expected an array of rentals, but received: " + typeof rentals);
+                }
+
+                if (rentals.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="8">No shared resources found.</td></tr>';
+                    return;
+                }
+
+                for (const rental of rentals) {
+                    // Fetch renter's contact from user_profiles
+                    const renterProfile = await fetch(`http://localhost:5001/api/profile/${rental.renter_id}`, {
+                        headers: { "Authorization": `Bearer ${token}` }
+                    }).then(res => res.json());
+
+                    const row = document.createElement("tr");
+                    row.setAttribute("data-rental-id", rental.rental_id);
+                    row.innerHTML = `
+                        <td>${rental.renter_name}</td>
+                        <td>${renterProfile.contact || '-'}</td>
+                        <td>${rental.resource_name}</td>
+                        <td>₹${rental.cost_per_day || '-'}</td>
+                        <td class="taken-date">${rental.rental_date ? new Date(rental.rental_date).toLocaleDateString('en-GB') : 'Not Taken Yet'}</td>
+                        <td class="return-date">${rental.return_date ? new Date(rental.return_date).toLocaleDateString('en-GB') : 'Not Yet Returned'}</td>
+                        <td>${rental.rental_date ? '<span class="taken-label">Taken</span>' : '<button class="taken-btn">Mark as Taken</button>'}</td>
+                        <td>${rental.return_date ? '<span class="returned-label">Returned</span>' : '<button class="return-btn">Mark as Returned</button>'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+
+                // Add event listeners for buttons
+                document.querySelectorAll(".taken-btn").forEach(button => {
+                    button.addEventListener("click", async function () {
+                        const row = button.closest("tr");
+                        const rentalId = row.getAttribute("data-rental-id");
+                        await markAsTaken(rentalId, token);
+                    });
+                });
+
+                document.querySelectorAll(".return-btn").forEach(button => {
+                    button.addEventListener("click", async function () {
+                        const row = button.closest("tr");
+                        const rentalId = row.getAttribute("data-rental-id");
+                        const rentalDateCell = row.querySelector(".taken-date").textContent;
+                        if (rentalDateCell === 'Not Taken Yet') {
+                            alert("The resource was not taken yet.");
+                            return;
+                        }
+                        await markAsReturned(rentalId, token);
+                    });
+                });
+            } catch (err) {
+                console.error("Error loading recently shared:", err);
+                alert("Failed to load recently shared resources.");
+            }
+        }
+
+        async function markAsTaken(rentalId, token) {
+            try {
+                const res = await fetch(`http://localhost:5001/api/rentals/take/${rentalId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert("Marked as taken successfully!");
+                    // Refresh both tables
+                    await Promise.all([
+                        loadRecentlyRented(token),
+                        loadRecentlyShared(token)
+                    ]);
+                } else {
+                    alert(data.message || "Failed to mark as taken.");
+                }
+            } catch (err) {
+                console.error("Error marking as taken:", err);
+                alert("Failed to mark as taken.");
+            }
+        }
+
+        async function markAsReturned(rentalId, token) {
+            try {
+                const res = await fetch(`http://localhost:5001/api/rentals/return/${rentalId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert("Marked as returned successfully!");
+                    // Immediately update the specific row with the returned data
+                    const row = document.querySelector(`tr[data-rental-id="${rentalId}"]`);
+                    if (row && data.rental && data.rental.return_date) {
+                        row.querySelector(".return-date").textContent = new Date(data.rental.return_date).toLocaleDateString('en-GB');
+                        row.querySelector("td:last-child").innerHTML = '<span class="returned-label">Returned</span>';
+                    }
+                    // Refresh both tables to ensure consistency
+                    await Promise.all([
+                        loadRecentlyRented(token),
+                        loadRecentlyShared(token)
+                    ]);
+                } else {
+                    alert(data.message || "Failed to mark as returned.");
+                }
+            } catch (err) {
+                console.error("Error marking as returned:", err);
+                alert("Failed to mark as returned.");
+            }
+        }
+    </script>
+</body>
+</html>

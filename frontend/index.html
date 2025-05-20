@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>FarmShare</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- font awesome cdn -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- fonts -->
+        <link rel = "stylesheet" href = "font/fonts.css">
+        <!-- normalize css -->
+        <link rel = "stylesheet" href = "css/normalize.css">
+        <!-- custom css -->
+        <link rel = "stylesheet" href = "css/utility.css">
+        <link rel = "stylesheet" href = "css/style.css">
+        <link rel = "stylesheet" href = "css/responsive.css">
+    </head>
+    <body>
+        <div style="width:100%; height: 100vh; background-image: url('./images/img1.jpg'); background-size: cover;background-position: center; background-repeat: no-repeat;">
+            <!-- navbar  -->
+            <nav class = "navbar">
+                <div class = "container flex">
+                    <a href = "index.html" class = "site-brand">
+                        <i class="fas fa-tractor" ></i>
+                        <span>Farm</span>Share
+                    </a>
+
+                    <button type = "button" id = "navbar-show-btn" class = "flex">
+                        <i class = "fas fa-bars"></i>
+                    </button>
+                    <div id = "navbar-collapse">
+                        <button type = "button" id = "navbar-close-btn" class = "flex">
+                            <i class = "fas fa-times"></i>
+                        </button>
+                        <ul class = "navbar-nav">
+                            <li class = "nav-item">
+                                <a href = "index.html" class = "nav-link">Home</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a href = "#services" class = "nav-link">About</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a href = "#contact" class = "nav-link">Contact</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a href = "login.html" class = "nav-link">Login/SignUp</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- end of navbar  -->
+
+            <!-- header -->
+            <header class = "flex">
+                <div class = "container">
+                    <div class = "header-title">
+                        <h1>Resource Sharing Platform</h1>
+                         <p>Our platform provides an easy and cost-effective way to rent, lease, or share farm tools and machinery, ensuring better productivity for all.</p>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <!-- header -->
+         
+
+        <!-- featured resources section -->
+        <section id="featured" class="py-4">
+            <div class="container">
+                <div class="title-wrap">
+                    <h1>Explore essential equipment for your farming needs</h1>
+                    <h2 class="lg-title">Featured Resources</h2>
+                </div>
+            
+                <div class="featured-row">
+                    <div class="featured-item my-2 shadow">
+                        <img src="images/tractor.jpg" alt="Tractor" width="600px" height="360px">
+                        <div class="featured-item-content">
+                            <span>
+                                <i class="fas fa-seedling"></i>
+                                Heavy-Duty Tractor
+                            </span>
+                            <div>
+                                <p class="text">Powerful tractors available for rent, ideal for plowing large fields efficiently.</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="featured-item my-2 shadow">
+                        <img src="images/harvester.jpg" alt="Harvester" width="600px" height="360px">
+                        <div class="featured-item-content">
+                            <span>
+                                <i class="fas fa-seedling"></i>
+                                Combine Harvester
+                            </span>
+                            <div>
+                                <p class="text">Perfect for harvesting large-scale crops with ease and efficiency.</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="featured-item my-2 shadow">
+                        <img src="images/tools.jpg" alt="Farming Tools" width="600px" height="360px">
+                        <div class="featured-item-content">
+                            <span>
+                                <i class="fas fa-seedling"></i>
+                                Farming Tools
+                            </span>
+                            <div>
+                                <p class="text">Essential hand tools for everyday farming tasks<br> and repairs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end of featured resources section -->
+
+
+
+        <!-- services section (About)-->
+        <section id = "services" class = "py-4">
+            <div class = "container">
+                <div class = "title-wrap">
+                    <span class = "sm-title">ABOUT US</span>
+                    <h2 class = "lg-title">Empowering Farmers Through Shared Equipment</h2><br>
+                    <p class="para">FarmShare is a digital platform designed to help farmers access essential agricultural equipment <br>without the high cost of ownership. By enabling equipment rentals, leasing, and sharing, we make modern farming <br>tools accessible to all.</p>
+                </div>
+
+                <div class = "services-row">
+                    <div class = "services-item">
+                        <span class = "services-icon">
+                            <i class="fas fa-seedling"></i>  
+                        </span>
+                        <h3>OUR MISSSION</h3>
+                        <p class = "text">Our mission is to empower farmers by providing shared access to agricultural equipment with advanced machinery, ensuring affordability, and efficiency in farming practices.</p>
+                    </div>
+
+                    <div class = "services-item">
+                        <span class = "services-icon">
+                            <i class="fas fa-globe"></i>
+                         </span>
+                        <h3>VISION</h3>
+                        <p class = "text">We are providing you the facility of communicating with the people you Need.A strong network of farmers supporting each other through shared access.</p>
+                    </div>
+
+                    <div class = "services-item">
+                        <span class = "services-icon">
+                            <i class = "fas fa-tools"></i>
+                        </span>
+                        <h3>LET'S START</h3>
+                        <p class="question">What are you Waiting for???</p>
+                        <p class = "text">It's much simple and easy...!!! Just click on the Login/SignUp Button and be a part of this to connect with Agricultural community & Share Resources.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end of services section -->
+
+
+        <!-- contact section -->
+        <section id = "contact" class = "py-4">
+            <div class = "container">
+                <div class = "title-wrap">
+                    <span class = "sm-title">Get in Touch</span>
+                    <h2 class = "lg-title">We’d love to hear from you! Reach out to us for any inquiries or assistance.</h2>
+                </div>
+                <div class = "contact-row">
+                    
+                    <div class = "contact-right my-2">
+                        <div class = "contact-item">
+                            <span class = "contact-icon flex">
+                                <i class = "fa fa-phone-alt"></i>
+                            </span>
+                            <div>
+                                <span>Phone</span>
+                                <p class = "text">+01-584-886-009</p>
+                            </div>
+                        </div>
+                        <div class = "contact-item">
+                            <span class = "contact-icon flex">
+                                <i class = "fa fa-map-marked-alt"></i>
+                            </span>
+                            <div>
+                                <span>Address</span>
+                                <p class = "text">102 East 22nd Street, NY</p>
+                            </div>
+                        </div>
+                        <div class = "contact-item">
+                            <span class = "contact-icon flex">
+                                <i class = "fa fa-envelope"></i>
+                            </span>
+                            <div>
+                                <span>Message</span>
+                                <p class = "text">info@farmshare.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end of contact section -->
+        
+        <!-- footer -->
+        <footer class = "py-4">
+            <div class = "container footer-row">
+                <div class = "footer-item">
+                    <a href = "index.html" class = "site-brand">
+                        <i class="fas fa-tractor" ></i>Farm<span>Share</span>
+                    </a>
+                    <p class = "text"> Empowering farmers by sharing agricultural resources, equipment, and knowledge. 
+                        Grow together, share resources, and build a sustainable future.</p>
+                </div>
+
+                <div class = "footer-item">
+                    <h2>Follow us on: </h2>
+                    <ul class = "social-links">
+                        <li>
+                            <a href = "https://www.facebook.com/" target="_blank">
+                                <i class = "fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href = "https://www.instagram.com/" target="_blank" >
+                                <i class = "fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href = "https://x.com/" target="_blank">
+                                <i class = "fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href = "https://www.pinterest.com/" target="_blank">
+                                <i class = "fab fa-pinterest"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href = "https://support.google.com/answer/2451065?hl=en" target="_blank">
+                                <i class = "fab fa-google-plus"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class = "footer-item">
+                    <h2>Popular Resources:</h2>
+                    <ul>
+                        <li><a href = "#">Tractor</a></li>
+                        <li><a href = "#">Harvester</a></li>
+                        <li><a href = "#">Rotavator</a></li>
+                        <li><a href = "#">Seed Driller</a></li>
+                        <li><a href = "#">Spade</a></li>
+                    </ul>
+                </div>
+
+                <!-- Gallery Section -->
+                <div class="footer-gallery">
+                    <h3>Gallery</h3>
+                    <div class="gallery-grid">
+                        <img src="./images/gal1.jpeg" alt="Agriculture field">
+                        <img src="./images/gal2.jpeg" alt="Poultry farm">
+                        <img src="./images/gal3.jpeg" alt="Dairy product">
+                        <img src="./images/gal4.jpeg" alt="Wheat farm">
+                    </div>
+                </div>
+            </div>
+        </footer> 
+        <!-- end of footer -->
+
+
+        <!-- js -->
+        <script src = "js/script.js"></script>
+    </body>
+</html>
